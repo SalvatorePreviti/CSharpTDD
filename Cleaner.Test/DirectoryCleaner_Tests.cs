@@ -56,6 +56,7 @@ namespace Cleaner.Test
             fs.AddFile("/dir/f1.tmp", new MockFileData("X1"));
             fs.AddFile("/dir/subdir/f2.log", new MockFileData("X2"));
             fs.AddFile("/dir/subdir/subdir1/f3.Tmp", new MockFileData("X3"));
+            fs.AddFile("/dir/subdir/subdir1/f4.temp", new MockFileData("X4"));
 
             var cleaner = new DirectoryCleaner(fs);
 
@@ -68,7 +69,7 @@ namespace Cleaner.Test
             Assert.False(fs.FileExists("/dir/subdir/f2.log"), "File is supposed to be deleted");
             Assert.False(fs.FileExists("/dir/subdir/subdir1/f3.tmp"), "File is supposed to be deleted");
 
-            Assert.Equal(3, fileDeletedList.Count);
+            Assert.Equal(4, fileDeletedList.Count);
             Assert.Equal(Path.GetFullPath("/dir/f1.tmp"), fileDeletedList[0].FilePath);
             Assert.Equal("temporary", fileDeletedList[0].Reason);
 
@@ -77,6 +78,9 @@ namespace Cleaner.Test
 
             Assert.Equal(Path.GetFullPath("/dir/subdir/subdir1/f3.Tmp"), fileDeletedList[2].FilePath);
             Assert.Equal("temporary", fileDeletedList[2].Reason);
+
+            Assert.Equal(Path.GetFullPath("/dir/subdir/subdir1/f4.temp"), fileDeletedList[3].FilePath);
+            Assert.Equal("temporary", fileDeletedList[3].Reason);
         }
 
         [Fact]
