@@ -17,7 +17,7 @@ namespace Cleaner.Internal
 
         public DuplicateFilesFinder(IFileSystem fileSystem)
         {
-            this._fileSystem = fileSystem;
+            _fileSystem = fileSystem;
         }
 
         /// <summary>
@@ -26,12 +26,12 @@ namespace Cleaner.Internal
         /// </summary>
         public bool TryAddFile(string filepath)
         {
-            using (var fileStream = this._fileSystem.File.OpenRead(filepath))
+            using (var fileStream = _fileSystem.File.OpenRead(filepath))
             {
                 using (var hashAlgorithm = MD5.Create())
                 {
                     string hash = Convert.ToHexString(hashAlgorithm.ComputeHash(fileStream));
-                    return this._hashes.Add(hash);
+                    return _hashes.Add(hash);
                 }
             }
         }

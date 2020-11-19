@@ -9,8 +9,8 @@ namespace Cleaner
 
         public FileDeletedEventArgs(string filepath, string reason)
         {
-            this.FilePath = filepath;
-            this.Reason = reason;
+            FilePath = filepath;
+            Reason = reason;
         }
     }
 }

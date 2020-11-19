@@ -17,7 +17,7 @@ namespace Cleaner
 
         public DirectoryCleaner(IFileSystem fileSystem)
         {
-            this._fileSystem = fileSystem;
+            _fileSystem = fileSystem;
         }
 
         /// <summary>
@@ -25,22 +25,22 @@ namespace Cleaner
         /// </summary>
         public void CleanDirectory(string path)
         {
-            var files = this._fileSystem.Directory.GetFiles(path, "*", SearchOption.AllDirectories);
+            var files = _fileSystem.Directory.GetFiles(path, "*", SearchOption.AllDirectories);
             Array.Sort(files);
 
-            var duplicateFilesFinder = new DuplicateFilesFinder(this._fileSystem);
+            var duplicateFilesFinder = new DuplicateFilesFinder(_fileSystem);
 
             foreach (string filepath in files)
             {
                 if (TemporaryFiles.IsTemporaryFile(filepath))
                 {
-                    this.DeleteFile(filepath, "temporary");
+                    DeleteFile(filepath, "temporary");
                     continue;
                 }
 
                 if (!duplicateFilesFinder.TryAddFile(filepath))
                 {
-                    this.DeleteFile(filepath, "duplicate");
+                    DeleteFile(filepath, "duplicate");
                     continue;
                 }
             }
@@ -48,8 +48,8 @@ namespace Cleaner
 
         private void DeleteFile(string filepath, string reason)
         {
-            this._fileSystem.File.Delete(filepath);
-            this.FileDeleted?.Invoke(new FileDeletedEventArgs(filepath, reason));
+            _fileSystem.File.Delete(filepath);
+            FileDeleted?.Invoke(new FileDeletedEventArgs(filepath, reason));
         }
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
-using Cleaner.Test.Fakes;
 using Xunit;
 
 namespace Cleaner.Test
