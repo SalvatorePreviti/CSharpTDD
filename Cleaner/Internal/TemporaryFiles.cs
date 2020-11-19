@@ -8,7 +8,8 @@ namespace Cleaner.Internal
     {
         private static HashSet<string> _temporaryExtensions = new HashSet<string>(new string[]{
             ".tmp",
-            ".log"
+            ".temp",
+            ".log",
         }, StringComparer.InvariantCultureIgnoreCase);
 
         /// <summary>
