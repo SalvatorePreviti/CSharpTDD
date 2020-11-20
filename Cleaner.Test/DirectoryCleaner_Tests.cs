@@ -31,7 +31,7 @@ namespace Cleaner.Test
         public void test_does_not_delete_files_to_keep()
         {
             var fs = new MockFileSystem();
-            fs.AddFile("/dir/f1.js", new MockFileData(""));
+            fs.AddFile("/dir/f1.js", new MockFileData("ddddd"));
             fs.AddFile("/dir/f2.c", new MockFileData("a2"));
             fs.AddFile("/dir/subdir/f3.txt", new MockFileData("a3"));
 
@@ -118,6 +118,24 @@ namespace Cleaner.Test
 
             Assert.Equal(Path.GetFullPath("/dir/x2.txt"), fileDeletedList[2].FilePath);
             Assert.Equal("duplicate", fileDeletedList[2].Reason);
+        }
+
+        [Fact]
+        public void test_deletes_empty_files()
+        {
+            var fs = new MockFileSystem();
+            fs.AddFile("/dir/f1.txt", new MockFileData(""));
+            fs.AddFile("/dir/subdir/f2.txt", new MockFileData(""));
+
+            var cleaner = new DirectoryCleaner(fs);
+
+            var fileDeletedList = new List<FileDeletedEventArgs>();
+            cleaner.FileDeleted += (e) => fileDeletedList.Add(e);
+
+            cleaner.CleanDirectory("/dir");
+
+            Assert.False(fs.FileExists("/dir/f1.txt"), "File is supposed to stay");
+            Assert.False(fs.FileExists("/dir/subdir/f2.txt"), "File is supposed to stay");
         }
     }
 }

@@ -43,6 +43,12 @@ namespace Cleaner
                     DeleteFile(filepath, "duplicate");
                     continue;
                 }
+
+                if (_fileSystem.FileInfo.FromFileName(filepath).Length == 0)
+                {
+                    DeleteFile(filepath, "empty");
+                    continue;
+                }
             }
         }
 
